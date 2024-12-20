@@ -25,6 +25,10 @@ def login(request):
     return render(request, 'users/login.html', context=context)
 
 
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('home'))
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(data=request.POST)
