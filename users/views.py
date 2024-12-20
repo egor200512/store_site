@@ -20,7 +20,7 @@ def login(request):
         form = UserLoginForm()
 
     context = {
-        'form': UserLoginForm
+        'form': form
     }
     return render(request, 'users/login.html', context=context)
 
