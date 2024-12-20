@@ -27,7 +27,7 @@ def login(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(instance=request.user, data=request.POST)
+        form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:login'))
@@ -38,7 +38,6 @@ def register(request):
         'form': form
     }
     return render(request, 'users/register.html', context=context)
-
 
 def profile(request):
     if request.method == 'POST':
