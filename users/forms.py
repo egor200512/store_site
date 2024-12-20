@@ -57,7 +57,7 @@ class UserProfileForm(UserChangeForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4',
     }))
-    image = forms.CharField(widget=forms.TextInput(attrs={
+    image = forms.ImageField(widget=forms.ClearableFileInput(attrs={
         'class': 'custom-file-label',
     }),required=False)
     username = forms.CharField(widget=forms.TextInput(attrs={
