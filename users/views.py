@@ -56,7 +56,7 @@ def profile(request):
         context = {
             'title':'Профиль',
             'form':form,
-            'basket':Basket.objects.all()
+            'baskets':Basket.objects.all()
         }
         return render(request, 'users/profile.html', context)
 
