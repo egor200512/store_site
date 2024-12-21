@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.urls import reverse
 
+from products.models import Product, Basket
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 
 
@@ -53,8 +54,9 @@ def profile(request):
     else:
         form = UserProfileForm(instance=request.user)
         context = {
-            'title': 'Профиль',
-            'form': form,
+            'title':'Профиль',
+            'form':form,
+            'basket':Basket.objects.all()
         }
         return render(request, 'users/profile.html', context)
 
