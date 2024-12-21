@@ -30,4 +30,6 @@ class Basket(models.Model):
     def __str__(self):
         return f'Коризина для {self.user.username}|Продукт: {self.product.name}.'
 
+    def sum(self):
+        return round(self.product.price * self.quantity, 2)
 

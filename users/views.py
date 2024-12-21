@@ -1,9 +1,11 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
+from django.template.context_processors import request
 from django.urls import reverse
 
 from products.models import Product, Basket
+from products.views import basket_remove
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 
 
@@ -53,10 +55,23 @@ def profile(request):
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserProfileForm(instance=request.user)
-        context = {
-            'title':'Профиль',
-            'form':form,
-            'baskets':Basket.objects.filter(user=request.user)
-        }
-        return render(request, 'users/profile.html', context)
+
+    baskets = Basket.objects.filter(user=request.user)
+
+    total_price , total_quantity = 0, 0
+    for i in baskets:
+        total_quantity += i.quantity
+        total_price += i.product.price * i.quantity
+
+
+    context = {
+        'title':'Профиль',
+        'form':form,
+        'baskets':baskets,
+        'total_quantity':total_quantity,
+        'total_price':total_price,
+
+    }
+
+    return render(request, 'users/profile.html', context=context)
 
