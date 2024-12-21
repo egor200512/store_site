@@ -1,5 +1,6 @@
 from audioop import reverse
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -23,7 +24,7 @@ def products(request):
     }
     return render(request, 'products/products.html', context=context)
 
-
+@login_required
 def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
     baskets = Basket.objects.filter(user=request.user, product=product)
