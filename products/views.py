@@ -1,6 +1,7 @@
 from audioop import reverse
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -16,16 +17,14 @@ def index(request):
     return render(request, 'products/index.html', context=context)
 
 
-def products(request, cat_id=None):
-
-    if cat_id:
-        product = Product.objects.filter(category_id=cat_id)
-    else:
-        product = Product.objects.all()
+def products(request, cat_id=None, page_number=1):
+    product = Product.objects.filter(category_id=cat_id) if cat_id else Product.objects.all()
+    paginator = Paginator(object_list=product, per_page=3)
+    product_paginator = paginator.page(page_number)
 
     context = {
         'title' : 'Товары',
-        'products': product,
+        'products': product_paginator,
         'categories' : ProductCategory.objects.all(),
     }
     return render(request, 'products/products.html', context=context)
