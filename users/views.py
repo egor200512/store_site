@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from users.models import User
 from products.models import Product, Basket
 from products.views import basket_remove
@@ -32,20 +32,6 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('home'))
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserRegistrationForm(data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Вы успешно зарегистрировались!')
-#             return HttpResponseRedirect(reverse('users:login'))
-#     else:
-#         form = UserRegistrationForm()
-#
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'users/register.html', context=context)
 
 class UserRegistrationView(CreateView):
     model = User
@@ -53,31 +39,23 @@ class UserRegistrationView(CreateView):
     form_class = UserRegistrationForm
     success_url = reverse_lazy('users:login')
 
-def profile(request):
-    if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('users:profile'))
-    else:
-        form = UserProfileForm(instance=request.user)
-
-    baskets = Basket.objects.filter(user=request.user)
-
-    total_price , total_quantity = 0, 0
-    for i in baskets:
-        total_quantity += i.quantity
-        total_price += i.product.price * i.quantity
+    def get_context_data(self, **kwargs):
+        context = super(UserRegistrationView, self).get_context_data()
+        context['title'] = 'Регистрация'
+        return context
+#             messages.success(request, 'Вы успешно зарегистрировались!')
 
 
-    context = {
-        'title':'Профиль',
-        'form':form,
-        'baskets':baskets,
-        'total_quantity':total_quantity,
-        'total_price':total_price,
+class UserProfileView(UpdateView):
+    model = User
+    template_name = 'users/profile.html'
+    form_class = UserProfileForm
 
-    }
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileView, self).get_context_data()
+        context['title'] = 'Профиль'
+        context['baskets'] = Basket.objects.filter(user=self.request.user)
+        return context
 
-    return render(request, 'users/profile.html', context=context)
-
+    def get_success_url(self):
+        return reverse_lazy('users:profile', args=(self.object.id,))
