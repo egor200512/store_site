@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from django.template.context_processors import request
-from django.urls import reverse
-
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
+from users.models import User
 from products.models import Product, Basket
 from products.views import basket_remove
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -32,20 +32,26 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('home'))
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Вы успешно зарегистрировались!')
-            return HttpResponseRedirect(reverse('users:login'))
-    else:
-        form = UserRegistrationForm()
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserRegistrationForm(data=request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Вы успешно зарегистрировались!')
+#             return HttpResponseRedirect(reverse('users:login'))
+#     else:
+#         form = UserRegistrationForm()
+#
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'users/register.html', context=context)
 
-    context = {
-        'form': form
-    }
-    return render(request, 'users/register.html', context=context)
+class UserRegistrationView(CreateView):
+    model = User
+    template_name = 'users/register.html'
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('users:login')
 
 def profile(request):
     if request.method == 'POST':
