@@ -1,14 +1,15 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from products import views
-from .views import login, UserProfileView, logout, UserRegistrationView
+from .views import UserProfileView, UserRegistrationView, UserLoginView
 
 app_name = 'users'
 
 urlpatterns = [
-    path('login/', login, name='login'),
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('profile/<int:pk>', UserProfileView.as_view(), name='profile'),
-    path('logout/', logout, name='logout'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]

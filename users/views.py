@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
@@ -9,29 +10,28 @@ from products.views import basket_remove
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 
 
-def login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-            if user:
-                auth.login(request, user)
-                return HttpResponseRedirect(reverse('home'))
-    else:
-        form = UserLoginForm()
+# def login(request):
+#     if request.method == 'POST':
+#         form = UserLoginForm(data=request.POST)
+#         if form.is_valid():
+#             username = request.POST['username']
+#             password = request.POST['password']
+#             user = auth.authenticate(username=username, password=password)
+#             if user:
+#                 auth.login(request, user)
+#                 return HttpResponseRedirect(reverse('home'))
+#     else:
+#         form = UserLoginForm()
+#
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'users/login.html', context=context)
 
-    context = {
-        'form': form
-    }
-    return render(request, 'users/login.html', context=context)
-
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('home'))
-
+class UserLoginView(LoginView):
+    form_class = UserLoginForm
+    template_name = 'users/login.html'
+    extra_context = {'title': 'Авторизация'}
 
 class UserRegistrationView(CreateView):
     model = User
