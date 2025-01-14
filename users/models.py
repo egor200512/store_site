@@ -5,7 +5,7 @@ from django.db.models import CASCADE
 from django.urls import reverse
 from django.utils.timezone import now
 
-from store.settings import DOMAIN_NAME
+from store.settings import DOMAIN_NAME, EMAIL_HOST_USER
 
 
 class User(AbstractUser):
@@ -34,7 +34,7 @@ class EmailVerification(models.Model):
         send_mail(
             subject=subject,
             message=message,
-            from_email='store@mail.com',
+            from_email=EMAIL_HOST_USER,
             recipient_list=[self.user.email],
             fail_silently=False
         )
