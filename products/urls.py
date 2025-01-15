@@ -1,9 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+
 from products import views
-from products.views import basket_add, basket_remove, ProductsListView
+from products.views import ProductsListView, basket_add, basket_remove
 
 app_name = 'products'
 urlpatterns = [

@@ -1,9 +1,12 @@
-from django.contrib.auth.views import LogoutView
-from django.urls import path, include
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
+from django.urls import include, path
+
 from products import views
-from .views import UserProfileView, UserRegistrationView, UserLoginView, EmailVerificationView
+
+from .views import (EmailVerificationView, UserLoginView, UserProfileView,
+                    UserRegistrationView)
 
 app_name = 'users'
 
