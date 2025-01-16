@@ -1,0 +1,62 @@
+[
+    {
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "name": "Черные ботинки",
+            "description": "Описание для черных ботинок.",
+            "price": "129.00",
+            "quantity": 122,
+            "image": "products_images/bootsq.jpg",
+            "category": 3
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "name": "Синие штаны",
+            "description": "Описание для синих штанов.",
+            "price": "55.00",
+            "quantity": 1244,
+            "image": "products_images/jj.jpg",
+            "category": 1
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 3,
+        "fields": {
+            "name": "Белая футболка",
+            "description": "Описание для белой футболки.",
+            "price": "12.00",
+            "quantity": 9999,
+            "image": "products_images/ttt.jpg",
+            "category": 1
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 4,
+        "fields": {
+            "name": "Цепь на шею",
+            "description": "Описание для цепи на шею.",
+            "price": "9999.00",
+            "quantity": 5,
+            "image": "products_images/chain1.jpg",
+            "category": 4
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 5,
+        "fields": {
+            "name": "Красная кепка.",
+            "description": "Описание для красной кепки.",
+            "price": "12.00",
+            "quantity": 100,
+            "image": "products_images/cap1.jpg",
+            "category": 2
+        }
+    }
+]
